@@ -40,7 +40,7 @@ for index,row in enumerate(accounts, start=1):
 	if row[6] is not None:
 		fields['issuer'] = row[6]
 
-	account = authURL.format(row[1].replace(' ', '+'), urlencode(fields))
+	account = authURL.format(row[1], urlencode(fields))
 	img = qrcode.make(account)
 	img.save('codes/{0:02d}-{1}.png'.format(index, row[1].replace('/', '_').replace(' ', '_')))
 
