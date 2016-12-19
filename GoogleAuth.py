@@ -31,7 +31,7 @@ accounts = cursor.execute('SELECT * FROM accounts')
 
 authURL = 'otpauth://totp/{0}?{1}'
 
-for row in accounts:
+for index,row in enumerate(accounts, start=1):
 	# URL format: https://github.com/google/google-authenticator/wiki/Key-Uri-Format
 	# We only needs certain fields out of the database to build our URL
 	fields = {
@@ -42,7 +42,7 @@ for row in accounts:
 
 	account = authURL.format(row[1].replace(' ', '+'), urlencode(fields))
 	img = qrcode.make(account)
-	img.save('codes/{0}.png'.format(row[1].replace('/', '_').replace(' ', '_')))
+	img.save('codes/{0:02d}-{1}.png'.format(index, row[1].replace('/', '_').replace(' ', '_')))
 
 cursor.close()
 authdb.close()
